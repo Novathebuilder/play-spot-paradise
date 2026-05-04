@@ -15,7 +15,7 @@ export const SiteHeader = ({ query, onQueryChange }: Props) => {
             <Gamepad2 className="h-5 w-5 text-primary-foreground" />
           </span>
           <span className="text-lg sm:text-xl">
-            Neon<span className="text-gradient">Play</span>
+            Nova<span className="text-gradient"> Games</span>
           </span>
         </a>
         <div className="relative ml-auto w-full max-w-md">

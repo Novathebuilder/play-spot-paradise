@@ -12,9 +12,9 @@ interface Props {
 export const GamePlayer = ({ game, onClose }: Props) => {
   useEffect(() => {
     if (!game) return;
-    document.title = `Playing ${game.title} · NeonPlay`;
+    document.title = `Playing ${game.title} · Nova Games`;
     return () => {
-      document.title = "NeonPlay — Free HTML5 Games Online";
+      document.title = "Nova Games — Free HTML5 Games Online";
     };
   }, [game]);
 

@@ -15,7 +15,7 @@ const Index = () => {
   const { favorites, recents, toggleFavorite, addRecent, isFavorite } = useGameLibrary();
 
   useEffect(() => {
-    document.title = "NeonPlay — Free HTML5 Games Online";
+    document.title = "Nova Games — Free HTML5 Games Online";
     const desc = "Play hundreds of free online HTML5 games instantly. Action, puzzle, racing, multiplayer .io games — no downloads, no installs.";
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) {
@@ -117,7 +117,7 @@ const Index = () => {
 
       <footer className="border-t border-border/60 py-8 text-center text-xs text-muted-foreground">
         <p>
-          NeonPlay © {new Date().getFullYear()} · Built for fun. Games embedded from their original publishers.
+          Nova Games © {new Date().getFullYear()} · Built for fun. Games embedded from their original publishers.
         </p>
       </footer>
 

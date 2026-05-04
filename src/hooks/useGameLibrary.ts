@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
-const FAV_KEY = "neonplay:favorites";
-const RECENT_KEY = "neonplay:recents";
+const FAV_KEY = "novagames:favorites";
+const RECENT_KEY = "novagames:recents";
 const RECENT_LIMIT = 12;
 
 function read(key: string): string[] {
