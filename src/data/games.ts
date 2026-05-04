@@ -6,7 +6,9 @@ export type GameCategory =
   | "Shooter"
   | "Strategy"
   | "Sports"
-  | "Casual";
+  | "Casual"
+  | "Adventure"
+  | "Multiplayer";
 
 export interface Game {
   id: string;
@@ -29,6 +31,8 @@ export const CATEGORIES: { name: GameCategory; emoji: string }[] = [
   { name: "Strategy", emoji: "♟️" },
   { name: "Sports", emoji: "⚽" },
   { name: "Casual", emoji: "🎲" },
+  { name: "Adventure", emoji: "🗺️" },
+  { name: "Multiplayer", emoji: "👥" },
 ];
 
 // Curated free / open-source HTML5 games that allow iframe embedding.
