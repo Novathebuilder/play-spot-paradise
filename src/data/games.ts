@@ -15,7 +15,7 @@ export interface Game {
   title: string;
   description: string;
   category: GameCategory;
-  thumbnailGradient: string; // tailwind gradient classes
+  thumbnailGradient: string;
   emoji: string;
   embedUrl: string;
   tags: string[];
@@ -35,8 +35,20 @@ export const CATEGORIES: { name: GameCategory; emoji: string }[] = [
   { name: "Multiplayer", emoji: "👥" },
 ];
 
-// Curated free / open-source HTML5 games that allow iframe embedding.
+// CrazyGames /embed/ URLs allow iframe embedding (X-Frame-Options: ALLOWALL).
+// Other entries are sites that explicitly permit embedding.
 export const GAMES: Game[] = [
+  {
+    id: "12minibattles",
+    title: "12 MiniBattles",
+    description: "1 or 2 player local multiplayer. 12 wild minigames, one trophy. Pure couch chaos.",
+    category: "Multiplayer",
+    thumbnailGradient: "from-pink-500 via-rose-500 to-red-600",
+    emoji: "🏆",
+    embedUrl: "https://www.crazygames.com/embed/12-minibattles",
+    tags: ["2 player", "party", "local multiplayer"],
+    featured: true,
+  },
   {
     id: "2048",
     title: "2048",
@@ -55,7 +67,7 @@ export const GAMES: Game[] = [
     category: "Action",
     thumbnailGradient: "from-cyan-500 via-blue-500 to-indigo-600",
     emoji: "🟢",
-    embedUrl: "https://agar.io/",
+    embedUrl: "https://www.crazygames.com/embed/agar-io",
     tags: ["multiplayer", "io", "arena"],
     featured: true,
   },
@@ -66,7 +78,7 @@ export const GAMES: Game[] = [
     category: "Arcade",
     thumbnailGradient: "from-emerald-500 via-teal-500 to-cyan-600",
     emoji: "🐍",
-    embedUrl: "https://slither.io/",
+    embedUrl: "https://www.crazygames.com/embed/slither-io",
     tags: ["multiplayer", "snake", "io"],
     featured: true,
   },
@@ -77,7 +89,7 @@ export const GAMES: Game[] = [
     category: "Shooter",
     thumbnailGradient: "from-orange-500 via-red-500 to-pink-600",
     emoji: "🔫",
-    embedUrl: "https://krunker.io/",
+    embedUrl: "https://www.crazygames.com/embed/krunker-io",
     tags: ["fps", "shooter", "multiplayer"],
     featured: true,
   },
@@ -88,7 +100,7 @@ export const GAMES: Game[] = [
     category: "Shooter",
     thumbnailGradient: "from-sky-500 via-indigo-500 to-purple-600",
     emoji: "🛡️",
-    embedUrl: "https://diep.io/",
+    embedUrl: "https://www.crazygames.com/embed/diep-io",
     tags: ["tanks", "io", "shooter"],
   },
   {
@@ -129,7 +141,7 @@ export const GAMES: Game[] = [
     category: "Casual",
     thumbnailGradient: "from-yellow-400 via-amber-500 to-orange-600",
     emoji: "🐤",
-    embedUrl: "https://flappybird.io/",
+    embedUrl: "https://www.crazygames.com/embed/flappy-bird",
     tags: ["arcade", "casual", "classic"],
   },
   {
@@ -139,7 +151,7 @@ export const GAMES: Game[] = [
     category: "Arcade",
     thumbnailGradient: "from-yellow-400 via-orange-500 to-red-500",
     emoji: "🟡",
-    embedUrl: "https://www.google.com/logos/2010/pacman10-i.html",
+    embedUrl: "https://www.crazygames.com/embed/pac-man",
     tags: ["classic", "arcade", "retro"],
   },
   {
@@ -149,7 +161,7 @@ export const GAMES: Game[] = [
     category: "Puzzle",
     thumbnailGradient: "from-slate-500 via-gray-600 to-zinc-700",
     emoji: "💣",
-    embedUrl: "https://minesweeper.online/",
+    embedUrl: "https://www.crazygames.com/embed/minesweeper-classic",
     tags: ["puzzle", "classic", "logic"],
   },
   {
@@ -159,13 +171,13 @@ export const GAMES: Game[] = [
     category: "Puzzle",
     thumbnailGradient: "from-blue-500 via-indigo-500 to-violet-600",
     emoji: "🔲",
-    embedUrl: "https://sudoku.com/",
+    embedUrl: "https://www.crazygames.com/embed/sudoku-classic",
     tags: ["numbers", "logic", "daily"],
   },
   {
     id: "trackmania",
-    title: "Trackmania Web",
-    description: "Drift, boost, perfect every corner of insane stunt tracks.",
+    title: "HexGL",
+    description: "Futuristic racing in the browser. Hover, drift, perfect every corner.",
     category: "Racing",
     thumbnailGradient: "from-red-500 via-rose-500 to-pink-600",
     emoji: "🏁",
@@ -175,22 +187,22 @@ export const GAMES: Game[] = [
   },
   {
     id: "pinball",
-    title: "Neon Pinball",
+    title: "Space Pinball",
     description: "Flip, bump, multiball. Score chasing at its purest.",
     category: "Arcade",
     thumbnailGradient: "from-pink-500 via-fuchsia-500 to-purple-600",
     emoji: "🎰",
-    embedUrl: "https://alexa-games.github.io/neon-pinball/",
+    embedUrl: "https://www.crazygames.com/embed/space-pinball",
     tags: ["pinball", "arcade", "retro"],
   },
   {
     id: "kart",
-    title: "SuperTuxKart",
-    description: "Open-source kart racing with power-ups, drifts and chaos.",
+    title: "Smash Karts",
+    description: "3D kart battle royale. Grab weapons, smash everyone.",
     category: "Racing",
     thumbnailGradient: "from-orange-500 via-amber-500 to-yellow-500",
     emoji: "🏎️",
-    embedUrl: "https://supertuxkart.net/",
+    embedUrl: "https://www.crazygames.com/embed/smash-karts",
     tags: ["kart", "racing", "multiplayer"],
   },
   {
@@ -200,7 +212,7 @@ export const GAMES: Game[] = [
     category: "Sports",
     thumbnailGradient: "from-cyan-400 via-sky-500 to-blue-600",
     emoji: "🏓",
-    embedUrl: "https://www.ponggame.org/",
+    embedUrl: "https://www.crazygames.com/embed/pong-2",
     tags: ["pong", "arcade", "classic"],
   },
   {
@@ -210,7 +222,7 @@ export const GAMES: Game[] = [
     category: "Sports",
     thumbnailGradient: "from-orange-500 via-amber-600 to-yellow-700",
     emoji: "🏀",
-    embedUrl: "https://basketball-fr-vm.com/",
+    embedUrl: "https://www.crazygames.com/embed/basketball-stars",
     tags: ["sports", "arcade", "casual"],
   },
   {
@@ -240,18 +252,18 @@ export const GAMES: Game[] = [
     category: "Shooter",
     thumbnailGradient: "from-yellow-400 via-orange-500 to-red-600",
     emoji: "🥚",
-    embedUrl: "https://shellshock.io/",
+    embedUrl: "https://www.crazygames.com/embed/shell-shockers",
     tags: ["fps", "egg", "io"],
     featured: true,
   },
   {
     id: "zombs",
-    title: "Zombs Royale",
-    description: "Top-down battle royale. Last squad standing wins.",
+    title: "Zombs.io",
+    description: "Survive zombie waves by building a fortress. Tower defense meets .io.",
     category: "Multiplayer",
     thumbnailGradient: "from-green-500 via-emerald-600 to-teal-700",
     emoji: "🧟",
-    embedUrl: "https://zombsroyale.io/",
+    embedUrl: "https://www.crazygames.com/embed/zombs-io",
     tags: ["battle royale", "io", "shooter"],
   },
   {
@@ -261,7 +273,7 @@ export const GAMES: Game[] = [
     category: "Action",
     thumbnailGradient: "from-sky-400 via-blue-500 to-indigo-600",
     emoji: "✈️",
-    embedUrl: "https://wings.io/",
+    embedUrl: "https://www.crazygames.com/embed/wings-io",
     tags: ["plane", "io", "action"],
   },
   {
@@ -271,7 +283,7 @@ export const GAMES: Game[] = [
     category: "Arcade",
     thumbnailGradient: "from-violet-500 via-purple-500 to-fuchsia-600",
     emoji: "📄",
-    embedUrl: "https://paper-io.com/",
+    embedUrl: "https://www.crazygames.com/embed/paper-io-2",
     tags: ["io", "territory", "arcade"],
   },
   {
@@ -281,7 +293,7 @@ export const GAMES: Game[] = [
     category: "Arcade",
     thumbnailGradient: "from-zinc-600 via-slate-700 to-gray-800",
     emoji: "🕳️",
-    embedUrl: "https://hole-io.com/",
+    embedUrl: "https://www.crazygames.com/embed/hole-io",
     tags: ["io", "city", "arcade"],
   },
   {
@@ -291,7 +303,7 @@ export const GAMES: Game[] = [
     category: "Strategy",
     thumbnailGradient: "from-red-600 via-rose-700 to-stone-800",
     emoji: "⚫",
-    embedUrl: "https://www.coolmathgames.com/0-checkers",
+    embedUrl: "https://www.crazygames.com/embed/checkers-rtg",
     tags: ["board", "classic", "strategy"],
   },
   {
@@ -311,7 +323,7 @@ export const GAMES: Game[] = [
     category: "Arcade",
     thumbnailGradient: "from-cyan-400 via-blue-500 to-purple-600",
     emoji: "🧱",
-    embedUrl: "https://playbreakout.com/",
+    embedUrl: "https://www.crazygames.com/embed/brick-breaker-arkadium",
     tags: ["arcade", "classic", "retro"],
   },
   {
@@ -321,7 +333,7 @@ export const GAMES: Game[] = [
     category: "Shooter",
     thumbnailGradient: "from-indigo-600 via-purple-700 to-fuchsia-800",
     emoji: "👽",
-    embedUrl: "https://freeinvaders.org/",
+    embedUrl: "https://www.crazygames.com/embed/space-invaders",
     tags: ["retro", "arcade", "shooter"],
   },
   {
@@ -331,7 +343,7 @@ export const GAMES: Game[] = [
     category: "Arcade",
     thumbnailGradient: "from-slate-700 via-zinc-800 to-black",
     emoji: "☄️",
-    embedUrl: "https://freeasteroids.org/",
+    embedUrl: "https://www.crazygames.com/embed/asteroids",
     tags: ["retro", "space", "arcade"],
   },
   {
@@ -362,7 +374,7 @@ export const GAMES: Game[] = [
     category: "Puzzle",
     thumbnailGradient: "from-orange-400 via-amber-500 to-yellow-600",
     emoji: "📦",
-    embedUrl: "https://www.mathsisfun.com/games/sokoban.html",
+    embedUrl: "https://www.crazygames.com/embed/sokoban-online",
     tags: ["puzzle", "logic", "classic"],
   },
   {
@@ -372,7 +384,7 @@ export const GAMES: Game[] = [
     category: "Puzzle",
     thumbnailGradient: "from-teal-500 via-emerald-600 to-green-700",
     emoji: "🀄",
-    embedUrl: "https://mahjong.com/",
+    embedUrl: "https://www.crazygames.com/embed/mahjong-classic",
     tags: ["tiles", "relaxing", "puzzle"],
   },
   {
@@ -382,17 +394,17 @@ export const GAMES: Game[] = [
     category: "Casual",
     thumbnailGradient: "from-emerald-600 via-green-700 to-teal-800",
     emoji: "🃏",
-    embedUrl: "https://www.solitr.com/",
+    embedUrl: "https://www.crazygames.com/embed/solitaire-klondike",
     tags: ["cards", "casual", "classic"],
   },
   {
     id: "geo",
-    title: "GeoGuessr Free",
-    description: "Dropped somewhere on Earth — guess where you are.",
+    title: "City Guesser",
+    description: "Dropped somewhere on Earth — guess the city from the street.",
     category: "Adventure",
     thumbnailGradient: "from-blue-500 via-cyan-500 to-emerald-500",
     emoji: "🌍",
-    embedUrl: "https://www.geoguessr.com/free",
+    embedUrl: "https://virtualvacation.us/guess",
     tags: ["geography", "exploration", "trivia"],
     featured: true,
   },
@@ -413,7 +425,7 @@ export const GAMES: Game[] = [
     category: "Racing",
     thumbnailGradient: "from-zinc-600 via-stone-700 to-orange-700",
     emoji: "🚗",
-    embedUrl: "https://drifthunters.io/",
+    embedUrl: "https://www.crazygames.com/embed/drift-hunters",
     tags: ["drift", "cars", "racing"],
   },
   {
@@ -423,7 +435,7 @@ export const GAMES: Game[] = [
     category: "Racing",
     thumbnailGradient: "from-yellow-500 via-orange-600 to-red-700",
     emoji: "🏍️",
-    embedUrl: "https://motox3m.io/",
+    embedUrl: "https://www.crazygames.com/embed/moto-x3m",
     tags: ["bike", "stunts", "racing"],
   },
   {
@@ -433,7 +445,7 @@ export const GAMES: Game[] = [
     category: "Sports",
     thumbnailGradient: "from-green-500 via-emerald-600 to-lime-700",
     emoji: "⚽",
-    embedUrl: "https://soccerskillsgame.com/",
+    embedUrl: "https://www.crazygames.com/embed/soccer-skills-world-cup",
     tags: ["football", "sports", "skills"],
   },
   {
@@ -443,7 +455,7 @@ export const GAMES: Game[] = [
     category: "Sports",
     thumbnailGradient: "from-emerald-700 via-green-800 to-stone-900",
     emoji: "🎱",
-    embedUrl: "https://www.8ballpool.com/en/game",
+    embedUrl: "https://www.crazygames.com/embed/8-ball-billiards-classic",
     tags: ["pool", "billiards", "sports"],
   },
   {
@@ -453,7 +465,7 @@ export const GAMES: Game[] = [
     category: "Sports",
     thumbnailGradient: "from-lime-500 via-green-600 to-emerald-700",
     emoji: "⛳",
-    embedUrl: "https://www.miniclip.com/games/mini-putt-gem-garden/en/",
+    embedUrl: "https://www.crazygames.com/embed/mini-golf-club",
     tags: ["golf", "sports", "casual"],
   },
   {
@@ -463,7 +475,7 @@ export const GAMES: Game[] = [
     category: "Casual",
     thumbnailGradient: "from-fuchsia-500 via-pink-600 to-rose-700",
     emoji: "🗼",
-    embedUrl: "https://stack-game.com/",
+    embedUrl: "https://www.crazygames.com/embed/stack",
     tags: ["casual", "stack", "arcade"],
   },
   {
@@ -473,7 +485,7 @@ export const GAMES: Game[] = [
     category: "Adventure",
     thumbnailGradient: "from-slate-600 via-zinc-700 to-stone-800",
     emoji: "🏃",
-    embedUrl: "https://vex7.io/",
+    embedUrl: "https://www.crazygames.com/embed/vex-7",
     tags: ["platformer", "stickman", "adventure"],
   },
   {
@@ -483,7 +495,7 @@ export const GAMES: Game[] = [
     category: "Adventure",
     thumbnailGradient: "from-red-500 via-orange-500 to-cyan-500",
     emoji: "🔥",
-    embedUrl: "https://fireboyandwatergirl.com/",
+    embedUrl: "https://www.crazygames.com/embed/fireboy-and-watergirl-1-forest-temple",
     tags: ["co-op", "puzzle", "adventure"],
     featured: true,
   },
