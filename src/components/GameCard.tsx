@@ -19,10 +19,18 @@ export const GameCard = ({ game, isFavorite, onPlay, onToggleFavorite, size = "m
       : "aspect-[4/5]";
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => onPlay(game)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onPlay(game);
+        }
+      }}
       className={cn(
-        "group relative overflow-hidden rounded-2xl text-left transition-smooth",
+        "group relative cursor-pointer overflow-hidden rounded-2xl text-left transition-smooth focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         "shadow-card hover:shadow-glow hover:-translate-y-1",
         "bg-gradient-card border border-border/60",
         sizeCls,
@@ -57,20 +65,13 @@ export const GameCard = ({ game, isFavorite, onPlay, onToggleFavorite, size = "m
       </div>
 
       {/* Favorite */}
-      <span
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onToggleFavorite(game.id);
         }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            e.stopPropagation();
-            onToggleFavorite(game.id);
-          }
-        }}
+        onKeyDown={(e) => e.stopPropagation()}
         className={cn(
           "absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full backdrop-blur-md transition-smooth",
           "bg-background/40 hover:bg-background/70",
@@ -79,13 +80,13 @@ export const GameCard = ({ game, isFavorite, onPlay, onToggleFavorite, size = "m
         aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
       >
         <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
-      </span>
+      </button>
 
       {game.featured && (
         <span className="absolute left-2 top-2 rounded-full bg-background/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-secondary backdrop-blur-md">
           ✦ Hot
         </span>
       )}
-    </button>
+    </div>
   );
 };
