@@ -64,7 +64,7 @@ export const GamePlayer = ({ game, onClose }: Props) => {
                 className="absolute inset-0 h-full w-full"
                 allow="autoplay; fullscreen; gamepad; microphone; camera"
                 allowFullScreen
-                referrerPolicy="no-referrer"
+                loading="eager"
               />
             </div>
             <p className="border-t border-border/60 p-3 text-center text-xs text-muted-foreground">
