@@ -512,3 +512,13 @@ export const GAMES: Game[] = [
     tags: ["puzzle", "brain", "casual"],
   },
 ];
+
+// Auto-attach GamePix cover icons for any game embedded from play.gamepix.com.
+const GP_EMBED_RE = /^https:\/\/play\.gamepix\.com\/([^/]+)\/embed/;
+for (const g of GAMES) {
+  if (g.iconUrl) continue;
+  const m = g.embedUrl.match(GP_EMBED_RE);
+  if (m) {
+    g.iconUrl = `https://img.gamepix.com/games/${m[1]}/cover/${m[1]}.png?w=240`;
+  }
+}
