@@ -20,6 +20,7 @@ export interface Game {
   embedUrl: string;
   tags: string[];
   featured?: boolean;
+  iconUrl?: string;
 }
 
 export const CATEGORIES: { name: GameCategory; emoji: string }[] = [
@@ -51,7 +52,6 @@ export const GAMES: Game[] = [
     emoji: "🏆",
     embedUrl: gp("12-minibattles-two-players"),
     tags: ["2 player", "party", "local multiplayer"],
-    featured: true,
   },
   {
     id: "12minibattles-2",
