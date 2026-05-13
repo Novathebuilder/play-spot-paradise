@@ -41,9 +41,22 @@ export const GameCard = ({ game, isFavorite, onPlay, onToggleFavorite, size = "m
           )}
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.3),transparent_55%)]" />
-        <div className="absolute inset-0 flex items-center justify-center text-6xl drop-shadow-lg transition-transform duration-300 group-hover:scale-110 sm:text-7xl">
-          <span aria-hidden>{game.emoji}</span>
-        </div>
+        {game.iconUrl ? (
+          <img
+            src={game.iconUrl}
+            alt={`${game.title} cover`}
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+            }}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-6xl drop-shadow-lg transition-transform duration-300 group-hover:scale-110 sm:text-7xl">
+            <span aria-hidden>{game.emoji}</span>
+          </div>
+        )}
 
         {/* Play overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 backdrop-blur-[2px] transition-smooth group-hover:opacity-100">
