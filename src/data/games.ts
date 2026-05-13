@@ -54,6 +54,17 @@ export const GAMES: Game[] = [
     featured: true,
   },
   {
+    id: "12minibattles-2",
+    title: "12 MiniBattles 2",
+    description: "The sequel — even more minigames, even more friendship-ending duels for two players.",
+    category: "Multiplayer",
+    thumbnailGradient: "from-violet-500 via-fuchsia-500 to-pink-600",
+    emoji: "🥇",
+    embedUrl: gp("12-minibattles-2"),
+    tags: ["2 player", "party", "local multiplayer", "sequel"],
+    featured: true,
+  },
+  {
     id: "2048",
     title: "2048",
     description: "Slide tiles, combine numbers, reach 2048. The puzzle that still hooks millions.",
