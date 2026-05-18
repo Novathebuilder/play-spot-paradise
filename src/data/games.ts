@@ -55,6 +55,17 @@ export const GAMES: Game[] = [
     featured: true,
   },
   {
+    id: "12minibattles-2",
+    title: "12 MiniBattles 2",
+    description: "The sequel — 12 more frantic two-player duels. Friendship not included.",
+    category: "Multiplayer",
+    thumbnailGradient: "from-violet-500 via-fuchsia-500 to-pink-600",
+    emoji: "🥇",
+    embedUrl: "https://unblocked-games-67.org/iframes/12-mini-battles-2-main/",
+    tags: ["2 player", "party", "sequel"],
+    featured: true,
+  },
+  {
     id: "2048",
     title: "2048",
     description: "Slide tiles, combine numbers, reach 2048. The puzzle that still hooks millions.",
