@@ -21,6 +21,8 @@ export interface Game {
   tags: string[];
   featured?: boolean;
   iconUrl?: string;
+  /** If set, the game renders natively inside Nova Games (no iframe). */
+  nativeId?: string;
 }
 
 export const CATEGORIES: { name: GameCategory; emoji: string }[] = [
