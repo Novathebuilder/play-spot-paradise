@@ -23,8 +23,6 @@ export const WhackGame = ({ onClose: _ }: NativeGameProps) => {
         if (t <= 1) {
           setRunning(false);
           setActive(null);
-          const sc = (window as any).__whackScore as number;
-          // we'll record below via effect
           return 0;
         }
         return t - 1;
