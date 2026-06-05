@@ -109,6 +109,7 @@ export const MinesweeperGame = ({ onClose: _ }: NativeGameProps) => {
         </div>
       }
     >
+      <div className="flex flex-col items-center">
       <div className="grid gap-px bg-border/40 p-px rounded-lg" style={{ gridTemplateColumns: `repeat(${w}, 28px)` }}>
         {board.flatMap((row, y) =>
           row.map((c, x) => (
@@ -124,6 +125,7 @@ export const MinesweeperGame = ({ onClose: _ }: NativeGameProps) => {
         )}
       </div>
       <p className="mt-2 text-center text-xs text-muted-foreground">Left-click reveal · Right-click flag</p>
+      </div>
     </GameShell>
   );
 };
