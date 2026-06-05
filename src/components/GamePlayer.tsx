@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { ExternalLink, Maximize2, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { Game } from "@/data/games";
+import { NATIVE_GAMES } from "@/games/registry";
+import { NovaBadge } from "@/games/shell";
 
 interface Props {
   game: Game | null;
@@ -29,16 +31,21 @@ export const GamePlayer = ({ game, onClose }: Props) => {
                   <span aria-hidden>{game.emoji}</span>
                 </div>
                 <div className="min-w-0">
-                  <h2 className="truncate text-base font-bold text-foreground sm:text-lg">{game.title}</h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="truncate text-base font-bold text-foreground sm:text-lg">{game.title}</h2>
+                    {game.nativeId && <NovaBadge />}
+                  </div>
                   <p className="truncate text-xs text-muted-foreground">{game.category} · {game.tags.join(" · ")}</p>
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-1">
-                <Button asChild variant="ghost" size="icon" aria-label="Open in new tab">
-                  <a href={game.embedUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </Button>
+                {!game.nativeId && game.embedUrl && (
+                  <Button asChild variant="ghost" size="icon" aria-label="Open in new tab">
+                    <a href={game.embedUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </Button>
+                )}
                 <Button
                   variant="ghost"
                   size="icon"
@@ -55,21 +62,34 @@ export const GamePlayer = ({ game, onClose }: Props) => {
                 </Button>
               </div>
             </div>
-            <div className="relative aspect-video w-full bg-background">
-              <iframe
-                id="game-frame"
-                key={game.id}
-                src={game.embedUrl}
-                title={game.title}
-                className="absolute inset-0 h-full w-full"
-                allow="autoplay; fullscreen; gamepad; microphone; camera"
-                allowFullScreen
-                loading="eager"
-              />
-            </div>
-            <p className="border-t border-border/60 p-3 text-center text-xs text-muted-foreground">
-              Some games may block embedding. If the screen is empty, click the ↗ icon to open in a new tab.
-            </p>
+            {game.nativeId && NATIVE_GAMES[game.nativeId] ? (
+              <div id="game-frame" className="min-h-[400px] w-full bg-background">
+                <Suspense fallback={<div className="flex h-[400px] items-center justify-center text-muted-foreground">Loading…</div>}>
+                  {(() => {
+                    const C = NATIVE_GAMES[game.nativeId!];
+                    return <C onClose={onClose} />;
+                  })()}
+                </Suspense>
+              </div>
+            ) : (
+              <>
+                <div className="relative aspect-video w-full bg-background">
+                  <iframe
+                    id="game-frame"
+                    key={game.id}
+                    src={game.embedUrl}
+                    title={game.title}
+                    className="absolute inset-0 h-full w-full"
+                    allow="autoplay; fullscreen; gamepad; microphone; camera"
+                    allowFullScreen
+                    loading="eager"
+                  />
+                </div>
+                <p className="border-t border-border/60 p-3 text-center text-xs text-muted-foreground">
+                  Some games may block embedding. If the screen is empty, click the ↗ icon to open in a new tab.
+                </p>
+              </>
+            )}
           </div>
         )}
       </DialogContent>
