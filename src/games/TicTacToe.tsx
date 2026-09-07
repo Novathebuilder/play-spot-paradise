@@ -219,7 +219,13 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
       if (lessonDone) return;
       const q = quality(board, lesson.you, i);
       const isBest = lesson.correct ? lesson.correct.includes(i) : q.label === "Best move";
-      setFeedback(isBest ? { label: "Correct! " + lesson.idea, tone: "text-secondary" } : q);
+      setFeedback(
+        isBest
+          ? { label: "Correct! " + lesson.idea, tone: "text-secondary" }
+          : lesson.correct
+          ? { label: "Not the move this lesson is after — try again.", tone: "text-destructive" }
+          : q,
+      );
       if (isBest) {
         const nb = board.slice();
         nb[i] = lesson.you;
