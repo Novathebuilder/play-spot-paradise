@@ -253,6 +253,35 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
     ? lesson.title
     : `${turn}'s turn`;
 
+  const Mark = ({ c, big }: { c: Cell; big?: boolean }) => {
+    if (!c) return null;
+    const stroke = c === "X" ? "hsl(var(--primary))" : "hsl(var(--accent))";
+    const size = big ? 60 : 52;
+    return (
+      <svg
+        viewBox="0 0 100 100"
+        width={size}
+        height={size}
+        className="animate-in zoom-in-50 duration-200"
+        style={{ filter: `drop-shadow(0 0 10px ${stroke})` }}
+      >
+        {c === "X" ? (
+          <g stroke={stroke} strokeWidth={14} strokeLinecap="round">
+            <line x1="22" y1="22" x2="78" y2="78" />
+            <line x1="78" y1="22" x2="22" y2="78" />
+          </g>
+        ) : (
+          <circle cx="50" cy="50" r="28" fill="none" stroke={stroke} strokeWidth={14} strokeLinecap="round" />
+        )}
+      </svg>
+    );
+  };
+
+  const pill = (activeCls: string, active: boolean) =>
+    `rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
+      active ? activeCls : "bg-muted/60 text-muted-foreground hover:bg-muted"
+    }`;
+
   return (
     <GameShell
       score={save.stats.plays}
@@ -260,31 +289,34 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
       status={status}
       onRestart={mode === "academy" ? () => loadLesson(lessonIdx) : resetPlay}
       controls={
-        <div className="flex flex-wrap items-center gap-1">
-          {(["play", "academy"] as Mode[]).map((m) => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              className={`rounded-md px-2 py-1 text-xs font-bold capitalize ${m === mode ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"}`}
-            >
-              {m === "play" ? "Play" : "Academy"}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex rounded-full bg-muted/50 p-0.5">
+            {(["play", "academy"] as Mode[]).map((m) => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                className={pill("bg-gradient-primary text-primary-foreground shadow-lg", m === mode)}
+              >
+                {m === "play" ? "Play" : "Academy"}
+              </button>
+            ))}
+          </div>
           {mode === "play" && (
             <>
-              <span className="mx-1 h-4 w-px bg-border" />
-              {(["Easy", "Medium", "Perfect", "2P"] as Level[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLevel(l)}
-                  className={`rounded-md px-2 py-1 text-xs font-bold ${l === level ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"}`}
-                >
-                  {l}
-                </button>
-              ))}
+              <div className="flex rounded-full bg-muted/50 p-0.5">
+                {(["Easy", "Medium", "Perfect", "2P"] as Level[]).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLevel(l)}
+                    className={pill("bg-secondary text-secondary-foreground", l === level)}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
               <button
                 onClick={() => setCoach((c) => !c)}
-                className={`rounded-md px-2 py-1 text-xs font-bold ${coach ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"}`}
+                className={pill("bg-accent text-accent-foreground", coach)}
               >
                 Coach {coach ? "on" : "off"}
               </button>
@@ -293,73 +325,101 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
         </div>
       }
     >
-      <div className="flex w-full flex-col items-center gap-4 md:flex-row md:items-start md:justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <div className="grid grid-cols-3 gap-2">
-            {board.map((c, i) => {
-              const highlight = win?.line.includes(i);
-              const hinted =
-                (mode === "academy" && showHint && (lesson.correct ? lesson.correct.includes(i) : i === bestMoveNow)) ||
-                (mode === "play" && coach && !over && level !== "2P" && turn === "X" && i === bestMoveNow && !!feedback);
-              return (
-                <button
-                  key={i}
-                  onClick={() => click(i)}
-                  aria-label={`Square ${i + 1}`}
-                  className={`flex h-20 w-20 items-center justify-center rounded-lg border text-4xl font-extrabold transition-colors ${
-                    highlight ? "border-secondary bg-secondary/20" : hinted ? "border-accent bg-accent/10" : "border-border bg-card hover:bg-muted"
-                  }`}
-                >
-                  <span className={c === "X" ? "text-primary" : "text-accent"}>{c}</span>
-                </button>
-              );
-            })}
+      <div className="flex w-full flex-col items-center gap-6 md:flex-row md:items-start md:justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-gradient-primary opacity-20 blur-2xl"
+            />
+            <div className="relative grid grid-cols-3 gap-2.5 rounded-3xl border border-border/60 bg-card/70 p-3 shadow-2xl backdrop-blur">
+              {board.map((c, i) => {
+                const highlight = win?.line.includes(i);
+                const hinted =
+                  (mode === "academy" && showHint && (lesson.correct ? lesson.correct.includes(i) : i === bestMoveNow)) ||
+                  (mode === "play" && coach && !over && level !== "2P" && turn === "X" && i === bestMoveNow && !!feedback);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => click(i)}
+                    aria-label={`Square ${i + 1}`}
+                    className={`group relative flex h-[5.5rem] w-[5.5rem] items-center justify-center rounded-2xl border transition-all duration-200 sm:h-24 sm:w-24 ${
+                      highlight
+                        ? "border-secondary bg-secondary/20 shadow-[0_0_25px_hsl(var(--secondary)/0.5)]"
+                        : hinted
+                        ? "border-accent bg-accent/10 shadow-[0_0_20px_hsl(var(--accent)/0.35)]"
+                        : "border-border/70 bg-background/60 hover:-translate-y-0.5 hover:border-primary/60 hover:bg-muted/50 hover:shadow-[0_0_20px_hsl(var(--primary)/0.25)]"
+                    }`}
+                  >
+                    <Mark c={c} big={highlight} />
+                    {!c && !over && (
+                      <span className="absolute text-3xl font-black text-muted-foreground/0 transition-colors group-hover:text-muted-foreground/25">
+                        {level === "2P" || mode === "academy" ? turn : "X"}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          {feedback && <p className={`max-w-[18rem] text-center text-xs font-semibold ${feedback.tone}`}>{feedback.label}</p>}
+          {feedback && (
+            <p
+              className={`max-w-[20rem] rounded-xl border border-border/60 bg-card/70 px-3 py-2 text-center text-xs font-semibold ${feedback.tone}`}
+            >
+              {feedback.label}
+            </p>
+          )}
         </div>
 
-        <div className="w-full max-w-xs space-y-3 rounded-xl border border-border/60 bg-card/60 p-3">
+        <div className="w-full max-w-xs space-y-3 rounded-2xl border border-border/60 bg-card/70 p-4 shadow-xl backdrop-blur">
           {mode === "academy" ? (
             <>
               <div>
-                <h3 className="text-sm font-extrabold text-foreground">{lesson.title}</h3>
-                <p className="mt-1 text-xs text-muted-foreground">{lesson.idea}</p>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">Academy</span>
+                <h3 className="mt-1 text-base font-extrabold text-foreground">{lesson.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{lesson.idea}</p>
               </div>
-              <p className="text-xs font-semibold text-foreground">
+              <p className="rounded-lg bg-muted/50 px-3 py-2 text-xs font-semibold text-foreground">
                 You are {lesson.you} — play the strongest move.
               </p>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setShowHint(true)}
-                  className="rounded-md bg-muted px-2 py-1 text-xs font-bold text-muted-foreground hover:bg-muted/70"
+                  className="rounded-full bg-muted/60 px-3 py-1.5 text-xs font-bold text-muted-foreground hover:bg-muted"
                 >
                   Hint
                 </button>
                 {lessonDone && lessonIdx < LESSONS.length - 1 && (
                   <button
                     onClick={() => loadLesson(lessonIdx + 1)}
-                    className="rounded-md bg-primary px-2 py-1 text-xs font-bold text-primary-foreground"
+                    className="rounded-full bg-gradient-primary px-3 py-1.5 text-xs font-bold text-primary-foreground shadow-lg"
                   >
                     Next lesson →
                   </button>
                 )}
               </div>
               {showHint && <p className="text-xs italic text-accent">{lesson.hint}</p>}
-              <div className="space-y-1 border-t border-border/60 pt-2">
+              <div className="space-y-2 border-t border-border/60 pt-3">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
                   Course · {solvedLessons.length}/{LESSONS.length} solved
                 </p>
-                <div className="flex flex-wrap gap-1">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/60">
+                  <div
+                    className="h-full rounded-full bg-gradient-primary transition-all duration-500"
+                    style={{ width: `${(solvedLessons.length / LESSONS.length) * 100}%` }}
+                  />
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {LESSONS.map((l, i) => (
                     <button
                       key={l.title}
                       onClick={() => loadLesson(i)}
-                      className={`rounded-md px-2 py-1 text-[11px] font-bold ${
+                      className={`h-7 w-7 rounded-full text-[11px] font-bold transition-all ${
                         i === lessonIdx
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-gradient-primary text-primary-foreground shadow-lg"
                           : solvedLessons.includes(i)
                           ? "bg-secondary/25 text-secondary"
-                          : "bg-muted text-muted-foreground hover:bg-muted/70"
+                          : "bg-muted/60 text-muted-foreground hover:bg-muted"
                       }`}
                     >
                       {i + 1}
@@ -370,22 +430,32 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
             </>
           ) : (
             <>
-              <h3 className="text-sm font-extrabold text-foreground">Coach</h3>
-              <p className="text-xs text-muted-foreground">
-                {coach
-                  ? "Every move you make is graded instantly, and the strongest square is outlined after each grade."
-                  : "Turn the coach on to have your moves graded as you play."}
-              </p>
-              <ul className="space-y-1 text-xs text-muted-foreground">
-                <li>· <span className="font-bold text-foreground">Easy</span> blunders often — good for warming up.</li>
-                <li>· <span className="font-bold text-foreground">Medium</span> plays well but slips.</li>
-                <li>· <span className="font-bold text-foreground">Perfect</span> never loses; a draw is a win for you.</li>
-                <li>· <span className="font-bold text-foreground">2P</span> for two players on one device.</li>
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">Coach</span>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  {coach
+                    ? "Every move you make is graded instantly, and the strongest square glows after each grade."
+                    : "Turn the coach on to have your moves graded as you play."}
+                </p>
+              </div>
+              <ul className="space-y-1.5 text-xs text-muted-foreground">
+                <li className="rounded-lg bg-muted/40 px-2.5 py-1.5">
+                  <span className="font-bold text-foreground">Easy</span> blunders often — good for warming up.
+                </li>
+                <li className="rounded-lg bg-muted/40 px-2.5 py-1.5">
+                  <span className="font-bold text-foreground">Medium</span> plays well but slips.
+                </li>
+                <li className="rounded-lg bg-muted/40 px-2.5 py-1.5">
+                  <span className="font-bold text-foreground">Perfect</span> never loses; a draw is a win for you.
+                </li>
+                <li className="rounded-lg bg-muted/40 px-2.5 py-1.5">
+                  <span className="font-bold text-foreground">2P</span> for two players on one device.
+                </li>
               </ul>
-              <div className="border-t border-border/60 pt-2 text-xs text-muted-foreground">
+              <div className="border-t border-border/60 pt-3 text-xs text-muted-foreground">
                 Games played: <span className="font-bold text-foreground">{save.stats.plays}</span>
                 {save.stats.achievements.length > 0 && (
-                  <div className="mt-1 flex flex-wrap gap-1">
+                  <div className="mt-2 flex flex-wrap gap-1">
                     {save.stats.achievements.slice(-4).map((a) => (
                       <span key={a} className="rounded-full bg-secondary/20 px-2 py-0.5 text-[10px] font-bold text-secondary">
                         {a}
