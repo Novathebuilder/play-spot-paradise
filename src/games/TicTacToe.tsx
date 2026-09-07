@@ -85,6 +85,8 @@ interface Lesson {
   board: string;
   you: Player;
   hint: string;
+  /** Accepted squares when several moves are objectively equal but only some teach the point. */
+  correct?: number[];
 }
 
 const LESSONS: Lesson[] = [
@@ -108,6 +110,7 @@ const LESSONS: Lesson[] = [
     board: ".........",
     you: "X",
     hint: "Four lines run through one square.",
+    correct: [4],
   },
   {
     title: "4 · Answer a centre opening with a corner",
@@ -115,6 +118,7 @@ const LESSONS: Lesson[] = [
     board: "....O....",
     you: "X",
     hint: "Pick any corner.",
+    correct: [0, 2, 6, 8],
   },
   {
     title: "5 · Build a double threat (fork)",
@@ -214,7 +218,7 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
     if (mode === "academy") {
       if (lessonDone) return;
       const q = quality(board, lesson.you, i);
-      const isBest = q.label === "Best move";
+      const isBest = lesson.correct ? lesson.correct.includes(i) : q.label === "Best move";
       setFeedback(isBest ? { label: "Correct! " + lesson.idea, tone: "text-secondary" } : q);
       if (isBest) {
         const nb = board.slice();
@@ -289,7 +293,7 @@ export const TicTacToeGame = ({ onClose: _ }: NativeGameProps) => {
             {board.map((c, i) => {
               const highlight = win?.line.includes(i);
               const hinted =
-                (mode === "academy" && showHint && i === bestMoveNow) ||
+                (mode === "academy" && showHint && (lesson.correct ? lesson.correct.includes(i) : i === bestMoveNow)) ||
                 (mode === "play" && coach && !over && level !== "2P" && turn === "X" && i === bestMoveNow && !!feedback);
               return (
                 <button
